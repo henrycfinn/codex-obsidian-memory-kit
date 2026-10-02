@@ -63,7 +63,7 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(card["files"][0]["content_label"], "Current content to be deleted")
         self.assertEqual(card["files"][0]["content_preview"], "# A\nkeep me")
         self.assertEqual(card["files"][0]["change_summary"], "Deletes this article (2 lines).")
-        self.assertEqual(card["files"][0]["markdown_path"], str(target))
+        self.assertEqual(Path(card["files"][0]["markdown_path"]).resolve(), target.resolve())
         self.assertEqual(card["decisions"]["approve"], "Yes — delete these 1 file.")
         self.assertNotIn(result["proposal_id"], card["decisions"]["approve"])
         review_page = Path(card["review_page"])
@@ -82,7 +82,7 @@ class ServiceTests(unittest.TestCase):
 
     def test_proposal_lookup_repeats_compact_review_card(self):
         target = self.root / "notes/a.md"
-        target.parent.mkdir(); target.write_text("# A\nold\n")
+        target.parent.mkdir(); target.write_text("# A\nold\n", newline="\n")
         staged = self.parse(service.change(self.cfg(), {
             "risk_flags": ["decision"],
             "changes": [{"path": "notes/a.md", "action": "write", "content": "# A\nnew\nextra\n"}],
@@ -90,8 +90,8 @@ class ServiceTests(unittest.TestCase):
         reviewed = self.parse(service.get_proposal_tool(self.cfg(), {"proposal_id": staged["proposal_id"]}))
         card = reviewed["review_card"]
         self.assertEqual(card["proposal_id"], staged["proposal_id"])
-        self.assertEqual(card["files"][0]["added_lines"], 3)
-        self.assertEqual(card["files"][0]["removed_lines"], 2)
+        self.assertEqual(card["files"][0]["added_lines"], 2)
+        self.assertEqual(card["files"][0]["removed_lines"], 1)
         self.assertEqual(card["files"][0]["content_label"], "Proposed content")
         self.assertEqual(card["files"][0]["content_preview"], "# A\nnew\nextra\n")
         self.assertEqual(card["files"][0]["change_summary"], "Updates the article with: new extra")

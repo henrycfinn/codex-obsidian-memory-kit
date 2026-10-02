@@ -1,0 +1,50 @@
+name: Bug report
+description: Report reproducible Agentic Librarian behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not paste private vault content, proposals, credentials, or full home paths. Use synthetic examples.
+  - type: input
+    id: version
+    attributes:
+      label: Agentic Librarian version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: hermes
+    attributes:
+      label: Hermes version
+    validations:
+      required: true
+  - type: dropdown
+    id: setup
+    attributes:
+      label: Knowledge setup
+      options:
+        - Plain Markdown
+        - Hermes llm-wiki
+        - Obsidian
+        - Obsidian + QMD
+        - Other
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps (sanitized)
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true

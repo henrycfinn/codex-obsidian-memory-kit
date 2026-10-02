@@ -1,0 +1,11 @@
+# Merge these settings into your Hermes config.
+plugins:
+  enabled:
+    - agentic-librarian
+  entries:
+    agentic-librarian:
+      settings:
+        knowledge_root: "/path/to/knowledge"
+        policy_mode: balanced
+        qmd_sync: off
+        git_checkpoint: false

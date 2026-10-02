@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Librarian"
+  short_description: "Govern shared wiki writes with review alerts"
+  default_prompt: "Use the Librarian to safely review and apply a durable wiki update; show any staged review card immediately."

@@ -1,0 +1,13 @@
+# Example for Hermes' built-in llm-wiki. The same folder remains canonical.
+plugins:
+  enabled:
+    - agentic-librarian
+  entries:
+    agentic-librarian:
+      settings:
+        knowledge_root: "/path/to/wiki"
+        policy_mode: balanced
+        raw_patterns:
+          - "raw/**"
+        qmd_sync: off
+        git_checkpoint: false

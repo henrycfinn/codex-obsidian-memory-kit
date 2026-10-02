@@ -1,0 +1,72 @@
+name: agentic-librarian
+version: 1.1.0
+manifest_version: 2
+api_version: 1
+description: Trust-aware autonomous knowledge-base governance for Hermes. Wraps existing Markdown/Obsidian wikis and optionally integrates with QMD and Git.
+author: Agentic Librarian contributors
+license: MIT
+platforms: [linux, macos, windows]
+provides_tools: [librarian_change, librarian_status, librarian_doctor, librarian_review_queue, librarian_get_proposal, librarian_apply_proposal, librarian_reject_proposal, librarian_history, librarian_configure]
+provides_hooks: [pre_tool_call]
+tags: [wiki, knowledge-base, obsidian, qmd, governance, human-in-the-loop, llm-wiki, local-first]
+config_schema:
+  knowledge_root:
+    type: str
+    default: ""
+    description: "Canonical knowledge directory. Empty auto-detects OBSIDIAN_VAULT_PATH, WIKI_PATH, then ~/wiki when present."
+  policy_mode:
+    type: str
+    default: balanced
+    description: "Autonomy policy: strict, balanced, or autonomous."
+  enforce_direct_writes:
+    type: bool
+    default: true
+    description: "Block direct Hermes write_file/patch mutations inside governed knowledge files and route them through librarian_change."
+  guard_terminal_writes:
+    type: bool
+    default: true
+    description: "Escalate clearly detected shell mutations that target the knowledge root."
+  governed_extensions:
+    type: list
+    default: [".md", ".mdx", ".txt", ".rst", ".org"]
+    description: "Text file extensions governed by the plugin."
+  excluded_patterns:
+    type: list
+    default: [".obsidian/**", ".git/**", ".trash/**", ".Trash/**"]
+    description: "Paths inside the knowledge root excluded from governance."
+  raw_patterns:
+    type: list
+    default: ["raw/**", "sources/**", "Sources/**"]
+    description: "Source/raw paths. New files can be autonomous; mutation of an existing raw file requires review."
+  human_controlled_patterns:
+    type: list
+    default: ["SCHEMA.md", "**/SCHEMA.md", "AGENTS.md", "**/AGENTS.md", "HERMES.md", "**/HERMES.md", ".hermes.md", "**/.hermes.md"]
+    description: "Paths whose changes always require review. Add decision/policy folders here if desired."
+  major_rewrite_ratio:
+    type: float
+    default: 0.35
+    description: "Changed-line fraction at or above which an existing file update is reviewed."
+  removal_review_ratio:
+    type: float
+    default: 0.15
+    description: "Removed-line fraction at or above which an existing file update is reviewed."
+  max_auto_changes:
+    type: int
+    default: 20
+    description: "Maximum files in one autonomous transaction before review is required."
+  qmd_duplicate_check:
+    type: bool
+    default: true
+    description: "When qmd is installed, use read-only lexical search to surface likely duplicate notes before creating a new page."
+  qmd_sync:
+    type: str
+    default: "off"
+    description: "QMD post-write sync: off, update, or update_and_embed. Opt in only after trusting your QMD collection/update configuration."
+  git_checkpoint:
+    type: bool
+    default: false
+    description: "When true and the knowledge root is in a clean Git repo, commit each applied librarian transaction."
+  prompt_guidance:
+    type: bool
+    default: true
+    description: "Teach Hermes to route governed knowledge writes through the librarian tool."

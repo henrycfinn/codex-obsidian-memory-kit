@@ -1,0 +1,16 @@
+# Safe starting profile for an existing Obsidian vault that QMD already indexes.
+# QMD duplicate preflight is read-only. Post-write QMD maintenance stays off until
+# you have verified your collection/update behavior; then choose update or
+# update_and_embed if desired.
+plugins:
+  enabled:
+    - agentic-librarian
+  entries:
+    agentic-librarian:
+      settings:
+        knowledge_root: "/path/to/obsidian-vault"
+        policy_mode: balanced
+        qmd_duplicate_check: true
+        qmd_sync: off
+        git_checkpoint: false
+        enforce_direct_writes: true

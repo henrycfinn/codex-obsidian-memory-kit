@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Runtime/plugin state must never be committed.
+plugin-data/
+proposals/
+receipts/
+*.sqlite
+*.sqlite3
+*.db
+
+# Local test/build outputs.
+dist/
+build/
+*.zip
+*.tar.gz

@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest an improvement while preserving the local-first governance model
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Design constraints
+      options:
+        - label: This can remain optional for users who do not have QMD, Obsidian, or Git.
+        - label: This does not require a second canonical knowledge store.
+        - label: This does not include private user data in fixtures/examples.

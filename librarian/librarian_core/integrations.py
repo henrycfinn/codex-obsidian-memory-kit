@@ -50,7 +50,7 @@ def _spawn_args(args: list[str]) -> list[str]:
     if os.name != "nt" or not args:
         return args
     executable = shutil.which(args[0])
-    if not executable or Path(executable).suffix.lower() not in {".cmd", ".bat"}:
+    if not executable or os.path.splitext(executable)[1].lower() not in {".cmd", ".bat"}:
         return args
     command = subprocess.list2cmdline([executable, *args[1:]])
     return [os.environ.get("COMSPEC", "cmd.exe"), "/d", "/s", "/c", command]
